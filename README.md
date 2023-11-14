@@ -1,23 +1,19 @@
-# DeepPulmoTB Datasets
 
-
-## DeepPulmoTB Training Mask Download
-
-DeepPulmoTB dataset is available in the [DeepPulmoTB dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing). As the paper is still under review, the dataset has been encrypted.
+Our dataset is available in the [dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing). As the paper is still under review, the dataset has been encrypted.
 
 Please take a look at the Data Description below for detailed information about the dataset.
 
 After decompressing DeepPulmoTB, you can get the following directory:
 
 ```none
-├── DeepPulmoTB
-│ ├── Training_Mask_Dataset
+├── Train_data
+│ ├── Training_Dataset
 │ │ ├── TRN_00.nii.gz
 │ │ ├── TRN_000.nii.gz
 │ │ ├──  …
 ```
 
-## DeepPulmoTB Training Data (ImageCLEF training data) Preparation
+## Training Data (ImageCLEF training data) Preparation
 
 For part1, we need to download the following datasets:
 
@@ -44,13 +40,13 @@ and unzip the Cavern Detection Train CT files (1 to 7) and the Cavern Report Tra
 they will be placed in the following directory:
 
 ```none
-├── DeepPulmoTB
+├── Train_data
 │ ├── Original_Image_Dataset
 │ │ ├── TRN_00.nii.gz
 │ │ ├── TRN_000.nii.gz
 │ │ ├──  …
 ```
-# DeepPulmoTBNet (DPTBNet)
+# SEW-TBNet
 
 Coming soon
 
