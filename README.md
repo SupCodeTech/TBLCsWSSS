@@ -10,7 +10,7 @@ pip install -r requirements.txt
 # Datasets
 
 ![image](https://github.com/SupCodeTech/SwinUNeLCsT/assets/111235455/88b8959d-fcbd-4797-8f8a-32ba711b9dc8)
-Figure 1 Lung Cavity Weakly supervised semantic segmentation dataset.
+Figure 1 Lung cavity weakly supervised semantic segmentation dataset.
 
 Our dataset is available in the [dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing). As the paper is still under review, the dataset has been encrypted.
 
