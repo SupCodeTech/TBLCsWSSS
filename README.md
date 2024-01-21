@@ -1,4 +1,10 @@
+The code is based on [MONAI]([https://github.com/open-mmlab/mmselfsup/tree/v0.11.0](https://github.com/Project-MONAI/MONAI/tree/dev).
 
+# Env configuration
+```bash
+pip install monai
+```
+# Datasets
 Our dataset is available in the [dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing). As the paper is still under review, the dataset has been encrypted.
 
 Please look at the Data Description below for detailed information about the dataset.
