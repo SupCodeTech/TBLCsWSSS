@@ -9,7 +9,7 @@ from monai.networks.blocks.dynunet_block import UnetOutBlock
 # from monai.networks.blocks.unetr_block import UnetstrBasicBlock, UnetrPrUpBlock, UnetResBlock
 
 
-from networks.unest_block import UNesTConvBlock, UNestUpBlock, UNesTBlock
+from networks.SwinUNeLCsT_block import SwinUNeLCsTConvBlock, SwinUNeLCsTUpBlock, SwinUNeLCsTTBlock
 
 from monai.networks.blocks import Convolution
 
@@ -17,7 +17,7 @@ from networks.nest_transformer_3D import NestTransformer3D
 
 import pdb
 
-class UNesT(nn.Module):
+class SwinUNeLCsT(nn.Module):
     """
     UNesT model implementation
     """
