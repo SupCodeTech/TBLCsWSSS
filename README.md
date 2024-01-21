@@ -29,7 +29,7 @@ After decompressing the dataset, you can get the following directory:
 
 ## Training Data (ImageCLEF training data) Preparation
 
-For part1, we need to download the following datasets:
+ We need to download the following datasets:
 
 ImageCLEF 2022 Tuberculosis - [Caverns Report](https://www.aicrowd.com/challenges/imageclef-2022-tuberculosis-caverns-report) and [Caverns Detection](https://www.aicrowd.com/challenges/imageclef-2022-tuberculosis-caverns-detection)
 
