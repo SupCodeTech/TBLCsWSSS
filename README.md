@@ -1,4 +1,4 @@
-The code is based on [MONAI]([https://github.com/open-mmlab/mmselfsup/tree/v0.11.0](https://github.com/Project-MONAI/MONAI/tree/dev).
+The code is based on [MONAI]([https://github.com/open-mmlab/mmselfsup/tree/v0.11.0](https://github.com/Project-MONAI/MONAI/tree/dev)).
 
 # Env configuration
 ```bash
