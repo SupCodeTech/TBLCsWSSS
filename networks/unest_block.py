@@ -8,7 +8,7 @@ import torch.nn as nn
 from monai.networks.blocks.dynunet_block import UnetBasicBlock, UnetResBlock, get_conv_layer
 
 
-class UNesTBlock(nn.Module):
+class SwinUNeLCsTBlock(nn.Module):
     """
     """
 
@@ -75,7 +75,7 @@ class UNesTBlock(nn.Module):
         return out
 
 
-class UNestUpBlock(nn.Module):
+class SwinUNeLCsTUpBlock(nn.Module):
     """
     """
 
@@ -193,7 +193,7 @@ class UNestUpBlock(nn.Module):
         return x
 
 
-class UNesTConvBlock(nn.Module):
+class SwinUNeLCsTConvBlock(nn.Module):
     """
     UNesT block with skip connections
     """
