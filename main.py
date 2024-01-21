@@ -143,12 +143,12 @@ def main(cfig, device):
 
     print(torch.version.cuda)
     if cfig['model_type'] == 'base':
-        from networks.unest import UNesT
+        from networks.SwinUNeLCsT import SwinUNeLCsT
     elif cfig['model_type'] == 'small':
-        from networks.unest_small_patch_4 import UNesT
+        from networks.SwinUNeLCsT_small_patch_4 import SwinUNeLCsT
     elif cfig['model_type'] == 'large':
-        from networks.unest_large_patch_4 import UNesT
-    model = UNesT(in_channels=1,
+        from networks.SwinUNeLCsT_large_patch_4 import SwinUNeLCsT
+    model = SwinUNeLCsT(in_channels=1,
                 out_channels=133,
                 patch_size=cfig['patch_size'],
                 depths=cfig['depth'],
