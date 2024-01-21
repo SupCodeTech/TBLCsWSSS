@@ -12,9 +12,9 @@ from networks.unest_block import UNesTConvBlock, UNestUpBlock, UNesTBlock
 from monai.networks.blocks import Convolution
 from networks.nest_transformer_3D import NestTransformer3D
 
-class S(nn.Module):
+class SwinUNeLCsT(nn.Module):
     """
-    UNesT model implementation
+    SwinUNeLCsT model implementation
     """
 
     def __init__(
