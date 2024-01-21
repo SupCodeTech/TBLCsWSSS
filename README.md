@@ -52,7 +52,7 @@ they will be placed in the following directory:
 │ │ ├── TRN_000.nii.gz
 │ │ ├──  …
 ```
-# SEW-TBNet
+# SwinUNeLCsT
 
 Coming soon
 
