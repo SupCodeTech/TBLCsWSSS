@@ -1,9 +1,9 @@
 
 Our dataset is available in the [dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing). As the paper is still under review, the dataset has been encrypted.
 
-Please take a look at the Data Description below for detailed information about the dataset.
+Please look at the Data Description below for detailed information about the dataset.
 
-After decompressing DeepPulmoTB, you can get the following directory:
+After decompressing the dataset, you can get the following directory:
 
 ```none
 ├── Train_data
