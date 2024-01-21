@@ -15,7 +15,7 @@ from networks.nest_transformer_3D import NestTransformer3D
 
 import pdb
 
-class UNesT(nn.Module):
+class SwinUNeLCsT(nn.Module):
     """
     UNesT model implementation
     """
