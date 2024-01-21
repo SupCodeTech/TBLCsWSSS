@@ -3,6 +3,9 @@ The code is based on [MONAI]([https://github.com/open-mmlab/mmselfsup/tree/v0.11
 # Env configuration
 ```bash
 pip install monai
+conda create -n unest python=3.7
+conda activate unest
+pip install -r requirements.txt
 ```
 # Datasets
 Our dataset is available in the [dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing). As the paper is still under review, the dataset has been encrypted.
