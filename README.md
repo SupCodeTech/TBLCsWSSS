@@ -1,3 +1,5 @@
+`This project is still under construction` 
+
 The code is based on [MONAI (AI Toolkit for Healthcare Imaging)](https://github.com/Project-MONAI/MONAI/tree/dev).
 
 # Env configuration
@@ -66,6 +68,9 @@ they will be placed in the following directory:
 ```bash
 python main.py
 ```
+## For weakly supervised paradigm training
+
+coming soon
 
 ## Contact
 If you have any questions, please feel free to contact me via tan.joey@pelajar.upm.edu.my
