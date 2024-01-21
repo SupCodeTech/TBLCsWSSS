@@ -207,7 +207,7 @@ def main(cfig, device):
     save_ckp(checkpoint, logdir+'/model_final_epoch.pt')
 
 if __name__ == '__main__':
-    yaml_file = 'yaml/SwinUNeLCsT.yaml'
+    yaml_file = 'SwinUNeLCsT.yaml'
     with open(yaml_file, 'r') as f:
         cfig = yaml.safe_load(f)
     device = torch.device('cuda:1' if torch.cuda.is_available() else 'cpu')
