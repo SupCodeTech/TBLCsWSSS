@@ -53,9 +53,10 @@ they will be placed in the following directory:
 │ │ ├──  …
 ```
 # SwinUNeLCsT
-
-Coming soon
-
+## For training
+```bash
+python main.py
+```
 
 ## Contact
 If you have any questions, please feel free to contact me via tan.joey@pelajar.upm.edu.my
