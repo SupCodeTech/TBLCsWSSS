@@ -59,9 +59,10 @@ they will be placed in the following directory:
 │ │ ├── TRN_00.nii.gz
 │ │ ├── TRN_000.nii.gz
 │ │ ├──  …
+
 ```
 # SwinUNeLCsT
-## For training
+## For supervised paradigm training
 ```bash
 python main.py
 ```
