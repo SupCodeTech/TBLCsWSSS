@@ -12,6 +12,55 @@ from networks.SwinUNeLCsT_block import SwinUNeLCsTConvBlock, SwinUNeLCsTUpBlock,
 from monai.networks.blocks import Convolution
 from networks.nest_transformer_3D import NestTransformer3D
 
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+import torch
+import torch.nn as nn
+
+class GlobalMaxPool3d(nn.Module):
+    def __init__(self):
+        super(GlobalMaxPool3d, self).__init__()
+        self.gmp = nn.AdaptiveMaxPool3d((1, 1, 1))
+
+    def forward(self, x):
+        x = self.gmp(x)
+        return x.view(x.size(0), -1)  
+
+class DXBlocks(nn.Module):
+    def __init__(self, channels):
+        super(CustomModule3D, self).__init__()
+
+        self.depthwise_conv = nn.Conv3d(channels, channels, kernel_size=7, padding=3, groups=channels)
+        self.pointwise_conv = nn.Conv3d(channels, channels, kernel_size=1)
+        
+        self.layer_norm = nn.LayerNorm([channels, channels, channels, channels]) 
+        
+        self.expand_conv = nn.Conv3d(channels, channels * 4, kernel_size=1)
+        
+        self.squeeze_conv = nn.Conv3d(channels * 4, channels, kernel_size=1)
+        
+        self.gelu = nn.GELU()
+
+    def forward(self, x):
+        residual = x
+        
+        x = self.depthwise_conv(x)
+        x = self.pointwise_conv(x)
+        
+        x = self.layer_norm(x.permute(0, 2, 3, 4, 1)).permute(0, 4, 1, 2, 3)  # 调整维度以符合LayerNorm的输入要求
+        
+        x = self.expand_conv(x)
+        
+        x = self.gelu(x)
+        
+        x = self.squeeze_conv(x)
+    
+        x = 2 * (x + residual)
+        
+        return x
+
 class SwinUNeLCsT(nn.Module):
     """
     SwinUNeLCsT model implementation
@@ -197,7 +246,7 @@ class SwinUNeLCsT(nn.Module):
 
 
     def forward(self, x_in):
-
+        gmp = GlobalMaxPool3d()
         x, hidden_states_out = self.nestViT(x_in) 
         enc0 = self.encoder1(x_in) # 2, 32, 96, 96, 96 #SwinUNeLCsTConvBlock
         x1 = hidden_states_out[0] # 2, 128, 24, 24, 24
@@ -209,12 +258,23 @@ class SwinUNeLCsT(nn.Module):
         x4 = hidden_states_out[3]
         enc4 = x4 # 2, 512, 6, 6, 6
         dec4 = x # 2, 512, 6, 6, 6
-        dec4 = self.encoder10(dec4) # 2, 1024, 3, 3, 3  Convolution
-        dec3 = self.decoder5(dec4, enc4) # 2, 512, 6, 6, 6 SwinUNeLCsTBlock
-        dec2 = self.decoder4(dec3, enc3) # 2, 256, 12, 12, 12
-        dec1 = self.decoder3(dec2, enc2) # 2, 128, 24, 24, 24
-        dec0 = self.decoder2(dec1, enc1) # 2, 64, 48, 48, 48
-        out = self.decoder1(dec0, enc0) # 2, 32, 96, 96, 96
+        dec4 = self.encoder10(dec4) 
+        dec3 = self.decoder5(dec4, enc4) 
+        dec3 = DXBlocks(dec3)
+        dec2 = self.decoder4(dec3, enc3) 
+        dec2 = DXBlocks(dec2)
+        dec3 = gmp(dec3)
+        dec2 = gmp(dec2)
+        Location_output = torch.cat((dec3, dec2), dim=1)
+        out = self.decoder1(dec0, enc0) 
+        dec1 = self.decoder3(dec2, enc2) 
+        dec1 = DXBlocks(dec1)
+        dec0 = self.decoder2(dec1, enc1)
+        dec0 = DXBlocks(dec0)
+        dec1 = gmp(dec1)
+        dec0 = gmp(dec0)
+        Number_output = torch.cat((dec1, dec0), dim=1)
+        out = self.decoder1(dec0, enc0) 
         logits = self.out(out)
         return logits
 
