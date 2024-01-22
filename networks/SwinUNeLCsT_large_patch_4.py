@@ -72,7 +72,7 @@ class SwinUNeLCsT(nn.Module):
         self.embed_dim = embed_dim
 
         self.nestViT = NestTransformer3D(
-            img_size=96, 
+            img_size=128, 
             in_chans=1, 
             patch_size=patch_size, 
             num_levels=3, 
