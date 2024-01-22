@@ -19,14 +19,6 @@ import torch.nn.functional as F
 import torch
 import torch.nn as nn
 
-class GlobalMaxPool3d(nn.Module):
-    def __init__(self):
-        super(GlobalMaxPool3d, self).__init__()
-        self.gmp = nn.AdaptiveMaxPool3d((1, 1, 1))
-
-    def forward(self, x):
-        x = self.gmp(x)
-        return x.view(x.size(0), -1)  
 
 class DXBlocks(nn.Module):
     def __init__(self, channels):
@@ -246,7 +238,7 @@ class SwinUNeLCsT(nn.Module):
 
 
     def forward(self, x_in):
-        gmp = GlobalMaxPool3d()
+        gap = nn.AdaptiveAvgPool3d((1, 1, 1))
         x, hidden_states_out = self.nestViT(x_in) 
         enc0 = self.encoder1(x_in) # 2, 32, 96, 96, 96 #SwinUNeLCsTConvBlock
         x1 = hidden_states_out[0] # 2, 128, 24, 24, 24
@@ -263,16 +255,16 @@ class SwinUNeLCsT(nn.Module):
         dec3 = DXBlocks(dec3)
         dec2 = self.decoder4(dec3, enc3) 
         dec2 = DXBlocks(dec2)
-        dec3 = gmp(dec3)
-        dec2 = gmp(dec2)
+        dec3 = gap(dec3)
+        dec2 = gap(dec2)
         Location_output = torch.cat((dec3, dec2), dim=1)
         out = self.decoder1(dec0, enc0) 
         dec1 = self.decoder3(dec2, enc2) 
         dec1 = DXBlocks(dec1)
         dec0 = self.decoder2(dec1, enc1)
         dec0 = DXBlocks(dec0)
-        dec1 = gmp(dec1)
-        dec0 = gmp(dec0)
+        dec1 = gap(dec1)
+        dec0 = gap(dec0)
         Number_output = torch.cat((dec1, dec0), dim=1)
         out = self.decoder1(dec0, enc0) 
         logits = self.out(out)
