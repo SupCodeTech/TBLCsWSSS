@@ -7,7 +7,7 @@ import torch.nn as nn
 
 from monai.networks.blocks.dynunet_block import UnetOutBlock
 
-from networks.unest_block import UNesTConvBlock, UNestUpBlock, UNesTBlock
+from networks.SwinUNeLCsT_block import SwinUNeLCsTConvBlock, SwinUNeLCsTUpBlock, SwinUNeLCsTBlock
 
 from monai.networks.blocks import Convolution
 from networks.nest_transformer_3D import NestTransformer3D
@@ -21,12 +21,12 @@ class SwinUNeLCsT(nn.Module):
         self,
         in_channels: int,
         out_channels: int,
-        img_size: Tuple[int, int, int] = [96, 96, 96],
+        img_size: Tuple[int, int, int] = [128, 128, 96],
         feature_size: int = 16,
         patch_size: int = 4,
         depths: Tuple[int, int, int] = [2, 2, 8],
         num_heads: Tuple[int, int, int] = [4, 8, 16],
-        embed_dim: Tuple[int, int, int] = [128, 256, 512],
+        embed_dim: Tuple[int, int, int] = [64, 128, 256, 512],
         window_size: Tuple[int, int, int] = [7, 7, 7],
         norm_name: Union[Tuple, str] = "instance",
         conv_block: bool = False,
@@ -86,7 +86,7 @@ class SwinUNeLCsT(nn.Module):
             global_pool='avg',
         )
 
-        self.encoder1 = UNesTConvBlock(
+        self.encoder1 = SwinUNeLCsTConvBlock(
             spatial_dims=3,
             in_channels=1,
             out_channels=feature_size * 2,
@@ -95,7 +95,7 @@ class SwinUNeLCsT(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.encoder2 = UNestUpBlock(
+        self.encoder2 = SwinUNeLCsTUpBlock(
             spatial_dims=3,
             in_channels=self.embed_dim[0],
             out_channels=feature_size * 4,
@@ -108,7 +108,7 @@ class SwinUNeLCsT(nn.Module):
             res_block=False,
         )
     
-        self.encoder3 = UNesTConvBlock(
+        self.encoder3 = SwinUNeLCsTConvBlock(
             spatial_dims=3,
             in_channels=self.embed_dim[0],
             out_channels=8 * feature_size,
@@ -118,7 +118,7 @@ class SwinUNeLCsT(nn.Module):
             res_block=res_block,
         )
 
-        self.encoder4 = UNesTConvBlock(
+        self.encoder4 = SwinUNeLCsTConvBlock(
             spatial_dims=3,
             in_channels=self.embed_dim[1],
             out_channels=16 * feature_size,
@@ -127,7 +127,7 @@ class SwinUNeLCsT(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.decoder5 = UNesTBlock(
+        self.decoder5 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=2*self.embed_dim[2],
             out_channels=feature_size * 32,
@@ -137,7 +137,7 @@ class SwinUNeLCsT(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.decoder4 = UNesTBlock(
+        self.decoder4 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=self.embed_dim[2],
             out_channels=feature_size * 16,
@@ -147,7 +147,7 @@ class SwinUNeLCsT(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.decoder3 = UNesTBlock(
+        self.decoder3 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=feature_size * 16,
             out_channels=feature_size * 8,
@@ -157,7 +157,7 @@ class SwinUNeLCsT(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.decoder2 = UNesTBlock(
+        self.decoder2 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=feature_size * 8,
             out_channels=feature_size * 4,
@@ -168,7 +168,7 @@ class SwinUNeLCsT(nn.Module):
             res_block=res_block,
         )
 
-        self.decoder1 = UNesTBlock(
+        self.decoder1 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=feature_size * 4,
             out_channels=feature_size * 2,
@@ -199,18 +199,18 @@ class SwinUNeLCsT(nn.Module):
     def forward(self, x_in):
 
         x, hidden_states_out = self.nestViT(x_in) 
-        enc0 = self.encoder1(x_in) # 2, 32, 96, 96, 96 #UNesTConvBlock
+        enc0 = self.encoder1(x_in) # 2, 32, 96, 96, 96 #SwinUNeLCsTConvBlock
         x1 = hidden_states_out[0] # 2, 128, 24, 24, 24
-        enc1 = self.encoder2(x1) # 2, 64, 48, 48, 48  UNestUpBlock
+        enc1 = self.encoder2(x1) # 2, 64, 48, 48, 48  SwinUNeLCsTUpBlock
         x2 = hidden_states_out[1] # 2, 128, 24, 24, 24 
-        enc2 = self.encoder3(x2) # 2, 128, 24, 24, 24 UNesTConvBlock
+        enc2 = self.encoder3(x2) # 2, 128, 24, 24, 24 SwinUNeLCsTConvBlock
         x3 = hidden_states_out[2] # 2, 256, 12, 12, 12 
-        enc3 = self.encoder4(x3) # 2, 256, 12, 12, 12 UNesTConvBlock
+        enc3 = self.encoder4(x3) # 2, 256, 12, 12, 12 SwinUNeLCsTConvBlock
         x4 = hidden_states_out[3]
         enc4 = x4 # 2, 512, 6, 6, 6
         dec4 = x # 2, 512, 6, 6, 6
         dec4 = self.encoder10(dec4) # 2, 1024, 3, 3, 3  Convolution
-        dec3 = self.decoder5(dec4, enc4) # 2, 512, 6, 6, 6 UNesTBlock
+        dec3 = self.decoder5(dec4, enc4) # 2, 512, 6, 6, 6 SwinUNeLCsTBlock
         dec2 = self.decoder4(dec3, enc3) # 2, 256, 12, 12, 12
         dec1 = self.decoder3(dec2, enc2) # 2, 128, 24, 24, 24
         dec0 = self.decoder2(dec1, enc1) # 2, 64, 48, 48, 48
@@ -218,16 +218,16 @@ class SwinUNeLCsT(nn.Module):
         logits = self.out(out)
         return logits
 
-class UNesT_ticv(nn.Module):
+class SwinUNeLCsT_ticv(nn.Module):
     """
-    UNesT TICV model implementation
+    SwinUNeLCsT TICV model implementation
     """
 
     def __init__(
         self,
         in_channels: int,
         out_channels: int,
-        img_size: Tuple[int, int, int] = [96, 96, 96],
+        img_size: Tuple[int, int, int] = [128, 128, 96],
         feature_size: int = 16,
         patch_size: int = 2,
         depths: Tuple[int, int, int, int] = [2, 2, 2, 2],
@@ -268,14 +268,14 @@ class UNesT_ticv(nn.Module):
         if not (0 <= dropout_rate <= 1):
             raise AssertionError("dropout_rate should be between 0 and 1.")
         
-        self.embed_dim = [128, 256, 512]
+        self.embed_dim = [64, 128, 256, 512]
 
         self.nestViT = NestTransformer3D(
             img_size=96, 
             in_chans=1, 
             patch_size=4, 
             num_levels=3, 
-            embed_dims=(128, 256, 512),                 
+            embed_dims=(64, 128, 256, 512),                 
             num_heads=(4, 8, 16), 
             depths=(2, 2, 8), 
             num_classes=1000, 
@@ -291,7 +291,7 @@ class UNesT_ticv(nn.Module):
             global_pool='avg',
         )
 
-        self.encoder1 = UNesTConvBlock(
+        self.encoder1 = SwinUNeLCsTConvBlock(
             spatial_dims=3,
             in_channels=1,
             out_channels=feature_size * 2,
@@ -300,7 +300,7 @@ class UNesT_ticv(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.encoder2 = UNestUpBlock(
+        self.encoder2 = SwinUNeLCsTUpBlock(
             spatial_dims=3,
             in_channels=self.embed_dim[0],
             out_channels=feature_size * 4,
@@ -313,7 +313,7 @@ class UNesT_ticv(nn.Module):
             res_block=False,
         )
 
-        self.encoder3 = UNesTConvBlock(
+        self.encoder3 = SwinUNeLCsTConvBlock(
             spatial_dims=3,
             in_channels=self.embed_dim[0],
             out_channels=8 * feature_size,
@@ -323,7 +323,7 @@ class UNesT_ticv(nn.Module):
             res_block=res_block,
         )
 
-        self.encoder4 = UNesTConvBlock(
+        self.encoder4 = SwinUNeLCsTConvBlock(
             spatial_dims=3,
             in_channels=self.embed_dim[1],
             out_channels=16 * feature_size,
@@ -332,7 +332,7 @@ class UNesT_ticv(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.decoder5 = UNesTBlock(
+        self.decoder5 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=2*self.embed_dim[2],
             out_channels=feature_size * 32,
@@ -342,7 +342,7 @@ class UNesT_ticv(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.decoder4 = UNesTBlock(
+        self.decoder4 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=self.embed_dim[2],
             out_channels=feature_size * 16,
@@ -352,7 +352,7 @@ class UNesT_ticv(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.decoder3 = UNesTBlock(
+        self.decoder3 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=feature_size * 16,
             out_channels=feature_size * 8,
@@ -362,7 +362,7 @@ class UNesT_ticv(nn.Module):
             norm_name=norm_name,
             res_block=res_block,
         )
-        self.decoder2 = UNesTBlock(
+        self.decoder2 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=feature_size * 8,
             out_channels=feature_size * 4,
@@ -373,7 +373,7 @@ class UNesT_ticv(nn.Module):
             res_block=res_block,
         )
 
-        self.decoder1 = UNesTBlock(
+        self.decoder1 = SwinUNeLCsTBlock(
             spatial_dims=3,
             in_channels=feature_size * 4,
             out_channels=feature_size * 2,
@@ -405,18 +405,18 @@ class UNesT_ticv(nn.Module):
             
     def forward(self, x_in):
         x, hidden_states_out = self.nestViT(x_in) 
-        enc0 = self.encoder1(x_in) # 2, 32, 96, 96, 96 #UNesTConvBlock
+        enc0 = self.encoder1(x_in) # 2, 32, 96, 96, 96 #SwinUNeLCsTConvBlock
         x1 = hidden_states_out[0] # 2, 128, 24, 24, 24
-        enc1 = self.encoder2(x1) # 2, 64, 48, 48, 48  UNestUpBlock
+        enc1 = self.encoder2(x1) # 2, 64, 48, 48, 48  SwinUNeLCsTUpBlock
         x2 = hidden_states_out[1] # 2, 128, 24, 24, 24 
-        enc2 = self.encoder3(x2) # 2, 128, 24, 24, 24 UNesTConvBlock
+        enc2 = self.encoder3(x2) # 2, 128, 24, 24, 24 SwinUNeLCsTConvBlock
         x3 = hidden_states_out[2] # 2, 256, 12, 12, 12 
-        enc3 = self.encoder4(x3) # 2, 256, 12, 12, 12 UNesTConvBlock
+        enc3 = self.encoder4(x3) # 2, 256, 12, 12, 12 SwinUNeLCsTConvBlock
         x4 = hidden_states_out[3]
         enc4 = x4 # 2, 512, 6, 6, 6
         dec4 = x # 2, 512, 6, 6, 6
         dec4 = self.encoder10(dec4) # 2, 1024, 3, 3, 3  Convolution
-        dec3 = self.decoder5(dec4, enc4) # 2, 512, 6, 6, 6 UNesTBlock
+        dec3 = self.decoder5(dec4, enc4) # 2, 512, 6, 6, 6 SwinUNeLCsTBlock
         dec2 = self.decoder4(dec3, enc3) # 2, 256, 12, 12, 12
         dec1 = self.decoder3(dec2, enc2) # 2, 128, 24, 24, 24
         dec0 = self.decoder2(dec1, enc1) # 2, 64, 48, 48, 48
