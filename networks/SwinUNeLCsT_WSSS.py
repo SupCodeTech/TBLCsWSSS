@@ -276,7 +276,7 @@ class SwinUNeLCsT(nn.Module):
         Number_output = torch.cat((dec1, dec0), dim=1)
         out = self.decoder1(dec0, enc0) 
         logits = self.out(out)
-        return logits
+        return logits, , Location_output, Number_output
 
 class SwinUNeLCsT_ticv(nn.Module):
     """
