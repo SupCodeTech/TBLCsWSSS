@@ -2,9 +2,9 @@
 CUDA_VISIBLE_DEVICES=0 python ./train.py \
 --layers 50 \
 --model_type res50_cam \
---dataset_path dataset/SBD_leige \
+--dataset_path dataset/DeepPulmoTB \
 --dataset SBD_pesudo_distancemap \
---train_path pascal_2012_scribble \
+--train_path DeepPulmoTB_2012_scribble \
 --distancemap_s distance_map \
 --distancemap_c distance_pseudo \
 --l_seg 1 \
