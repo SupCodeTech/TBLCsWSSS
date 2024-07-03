@@ -22,4 +22,4 @@ CUDA_VISIBLE_DEVICES=0 python ./train.py \
 --wdecay 5e-4 \
 --momentum 0.9 \
 --epochs 50 \
---logdir ./log/train_r50_deeplabv2
+--logdir ./log/train_r50_SwinUNeLCsXt
