@@ -14,7 +14,7 @@ CUDA_VISIBLE_DEVICES=0 python ./train.py \
 --l_ds 1 \
 --l_dc 1 \
 --labelFusion_entropy 0 \
---numclasses 21 \
+--numclasses 2 \
 --workers 6 \
 --batchsize 16 \
 --lr 1e-3 \
