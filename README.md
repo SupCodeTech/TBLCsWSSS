@@ -75,7 +75,7 @@ coming soon
 # SwinUNeLCsXt
 Run the example script:  
 ```sh
-sh scripts/SwinUNeLCsXt.sh
+sh scripts/train_r50_SwinUNeLCsXt.sh
 ```
 
 ## Contact
