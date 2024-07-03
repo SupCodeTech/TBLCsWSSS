@@ -3,9 +3,9 @@
 # baseline no mask
 CUDA_VISIBLE_DEVICES=2 python ./evaluate.py \
 --layers 50 \
---dataset_path dataset/ScribbleSup/VOC2012 \
---dataset VOC2012 \
---numclasses 21 \
+--dataset_path dataset/ScribbleSup/DeepPulmoTB \
+--dataset DeepPulmoTB \
+--numclasses 2 \
 --workers 2 \
 --model_type res50_CAMATT \
 --shrink_factor 1 \
