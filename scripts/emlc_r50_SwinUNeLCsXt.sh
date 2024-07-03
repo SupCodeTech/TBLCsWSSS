@@ -10,4 +10,4 @@ CUDA_VISIBLE_DEVICES=2 python ./evaluate.py \
 --model_type res50_CAMATT \
 --shrink_factor 1 \
 --checkpoint_path log/train_deeplabv2_r50/last_checkpoint.pth \
---save_path emlc_r50_deeplabv2
+--save_path emlc_r50_SwinUNeLCsXt
