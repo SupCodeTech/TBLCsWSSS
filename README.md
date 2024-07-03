@@ -72,6 +72,12 @@ python main.py
 
 coming soon
 
+# SwinUNeLCsXt
+Run the example script:  
+```sh
+sh scripts/SwinUNeLCsXt.sh
+```
+
 ## Contact
 If you have any questions, please feel free to contact me via tan.joey@pelajar.upm.edu.my
 
