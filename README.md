@@ -90,7 +90,7 @@ python train/APLPRA.py
 ```
 ## Basic Supervised Semantic Segmentation
 ```bash
-coming soon
+python train/basic_seg.py
 ```
 
 ## Contact
