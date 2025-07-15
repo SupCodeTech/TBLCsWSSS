@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .classification_cam_affinity import (
     ClassificationHead,
     CAMGenerator,
