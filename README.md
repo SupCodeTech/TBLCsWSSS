@@ -1,4 +1,4 @@
-`As the paper is still in the development stage, the project code has not yet been fully uploaded. This project is still under construction` 
+`Note: As the paper is still in the development stage, the project code has not yet been fully uploaded. This project is still under construction` 
 
 The code is based on [MONAI (AI Toolkit for Healthcare Imaging)](https://github.com/Project-MONAI/MONAI/tree/dev).
 
