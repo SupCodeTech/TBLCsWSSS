@@ -77,20 +77,20 @@ sh scripts/train_r50_SwinUNeLCsXt.sh
 ```
 ## For Symmetrized Graph Convolutional Semantic Affinity
 ```bash
-python train/SGCSA_Module.py
+python tool/SGCSA_Module.py
 ```
 ## For Class-driven Affinity Pseudo Label Generation
 ```bash
-python train/CLS_CAM.py
+python tool/CLS_CAM.py
 ```
 
 ## Affinity Pixel-Level Pseudo Refinement Adjustment
 ```bash
-python train/APLPRA.py
+python tool/APLPRA.py
 ```
 ## Basic Supervised Semantic Segmentation
 ```bash
-python train/basic_seg.py
+python tool/basic_seg.py
 ```
 
 ## Contact
