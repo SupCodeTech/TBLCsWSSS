@@ -84,6 +84,15 @@ python train/SGCSA_Module.py
 python train/CLS_CAM.py
 ```
 
+## Affinity Pixel-Level Pseudo Refinement Adjustment
+```bash
+coming soon
+```
+## Basic Supervised Semantic Segmentation
+```bash
+coming soon
+```
+
 ## Contact
 If you have any questions, please feel free to contact me via tan.joey@pelajar.upm.edu.my
 
