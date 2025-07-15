@@ -19,6 +19,51 @@ import torch.nn.functional as F
 import torch
 import torch.nn as nn
 
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+
+
+class PartialConv3D(nn.Module):
+    def __init__(self, in_channels, out_channels, kernel_size=7, stride=1, padding=3):
+        super(PartialConv3D, self).__init__()
+        self.input_conv = nn.Conv3d(in_channels, out_channels, kernel_size,
+                                    stride=stride, padding=padding, bias=False)
+        self.mask_conv = nn.Conv3d(in_channels, out_channels, kernel_size,
+                                   stride=stride, padding=padding, bias=False)
+        nn.init.constant_(self.mask_conv.weight, 1.0)
+        self.mask_conv.weight.requires_grad = False
+
+    def forward(self, x):
+        mask = torch.ones_like(x)
+        out = self.input_conv(x)
+        with torch.no_grad():
+            mask_out = self.mask_conv(mask)
+            mask_ratio = mask_out.clamp(min=1e-8)
+        return out / mask_ratio
+
+
+class ResidualPConvBlock(nn.Module):
+    def __init__(self, layer_di):
+        super(ResidualPConvBlock, self).__init__()
+        self.pconv = PartialConv3D(layer_di, layer_di, kernel_size=7, padding=3)
+        self.ln = nn.LayerNorm([layer_di, 1, 1, 1])  # Adjusted later for actual input size
+        self.conv1 = nn.Conv3d(layer_di, 4 * layer_di, kernel_size=1)
+        self.conv2 = nn.Conv3d(4 * layer_di, layer_di, kernel_size=1)
+        self.gelu = nn.GELU()
+
+    def forward(self, x):
+        residual = x
+        out = self.pconv(x)
+        # Reshape for LayerNorm: (B, C, D, H, W) => (B, D, H, W, C)
+        out = out.permute(0, 2, 3, 4, 1)
+        out = self.ln(out)
+        out = out.permute(0, 4, 1, 2, 3)
+        out = self.conv1(out)
+        out = self.gelu(out)
+        out = self.conv2(out)
+        out = out + residual
+        return out * 2
 
 class DXBlocks(nn.Module):
     def __init__(self, channels):
@@ -252,17 +297,17 @@ class SwinUNeLCsT(nn.Module):
         dec4 = x # 2, 512, 6, 6, 6
         dec4 = self.encoder10(dec4) 
         dec3 = self.decoder5(dec4, enc4) 
-        dec3 = DXBlocks(dec3)
+        dec3 = ResidualPConvBlock(dec3)
         dec2 = self.decoder4(dec3, enc3) 
-        dec2 = DXBlocks(dec2)
+        dec2 = ResidualPConvBlock(dec2)
         dec3 = gap(dec3)
         dec2 = gap(dec2)
         Location_output = torch.cat((dec3, dec2), dim=1)
         out = self.decoder1(dec0, enc0) 
         dec1 = self.decoder3(dec2, enc2) 
-        dec1 = DXBlocks(dec1)
+        dec1 = ResidualPConvBlock(dec1)
         dec0 = self.decoder2(dec1, enc1)
-        dec0 = DXBlocks(dec0)
+        dec0 = ResidualPConvBlock(dec0)
         dec1 = gap(dec1)
         dec0 = gap(dec0)
         Number_output = torch.cat((dec1, dec0), dim=1)
