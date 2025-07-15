@@ -94,6 +94,8 @@ python train/APLPRA.py
 python train/basic_seg.py
 ```
 
+`Note: As the paper is still in the REVIEW stage, the project code has not yet been fully uploaded. This project is still under construction` 
+
 ## Contact
 If you have any questions, please feel free to contact me via tan.joey@pelajar.upm.edu.my
 
