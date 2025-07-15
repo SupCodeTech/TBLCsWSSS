@@ -58,7 +58,7 @@ def main():
 
     ce_loss_fn = nn.CrossEntropyLoss()
 
-    for epoch in range(50):
+    for epoch in range(200):
         net.train()
         total_loss = 0
         for batch in train_loader:
