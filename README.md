@@ -86,7 +86,7 @@ python train/CLS_CAM.py
 
 ## Affinity Pixel-Level Pseudo Refinement Adjustment
 ```bash
-coming soon
+python train/APLPRA.py
 ```
 ## Basic Supervised Semantic Segmentation
 ```bash
