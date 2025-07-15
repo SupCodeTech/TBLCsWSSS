@@ -8,6 +8,7 @@ import torch.nn as nn
 from monai.networks.blocks.dynunet_block import UnetOutBlock
 
 from networks.SwinUNeLCsT_block import SwinUNeLCsTConvBlock, SwinUNeLCsTUpBlock, SwinUNeLCsTBlock
+from tool.SGCSA_Module import SGCSA_Module
 
 from monai.networks.blocks import Convolution
 from networks.nest_transformer_3D import NestTransformer3D
@@ -81,6 +82,8 @@ class SwinUNeLCsT(nn.Module):
         conv_block: bool = False,
         res_block: bool = True,
         dropout_rate: float = 0.0,
+        self.sgsca = SGCSA_Module(num_layers=2, in_features=1, hidden_features=64)
+
     ) -> None:
         """
         Args:
@@ -276,7 +279,31 @@ class SwinUNeLCsT(nn.Module):
         Number_output = torch.cat((dec1, dec0), dim=1)
         out = self.decoder1(dec0, enc0) 
         logits = self.out(out)
-        return logits, Location_output, Number_output
+
+        # 假设 hidden_states_out[-1] 是 Swin 输出的最后一层 MHSA 特征图，形状 [B, C, H, W, D]
+        attn_feature = hidden_states_out[-1]  # [B, C, H, W, D]
+        
+        # Flatten spatial维度 [B, C, hwd]
+        B, C, H, W, D = attn_feature.shape
+        attn_feature_flat = attn_feature.view(B, C, -1).permute(0, 2, 1)  # [B, hwd, C]
+        
+        # 计算 pairwise similarity 矩阵，得到 Multi-head Attention Map (如 MHSA 中的 Attention Score)
+        # [B, hwd, hwd, n_heads]  ——> 这里用点积模拟 (可根据实际情况替换为 Swin 的 Attention Map)
+        similarity_list = []
+        for b in range(B):
+            feat = attn_feature_flat[b]  # [hwd, C]
+            similarity = torch.einsum('ic,jc->ij', feat, feat)  # [hwd, hwd]
+            similarity_list.append(similarity.unsqueeze(-1))
+        attn_matrix = torch.stack(similarity_list, dim=0)  # [B, hwd, hwd, 1]
+        
+        # 送入 SGCSA 计算 W_aff
+        W_aff_list = []
+        for b in range(B):
+            W_aff = self.sgsca(attn_matrix[b])  # [hwd, hwd]
+            W_aff_list.append(W_aff)
+        W_aff_batch = torch.stack(W_aff_list, dim=0)  # [B, hwd, hwd]
+        
+        return logits, Location_output, Number_output, W_aff_batch
 
 class SwinUNeLCsT_ticv(nn.Module):
     """
