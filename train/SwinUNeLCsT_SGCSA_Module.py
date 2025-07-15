@@ -12,7 +12,7 @@ from tool.SGCSA_Module import SGCSA_Module
 # ------------------------------
 BATCH_SIZE = 2
 LR = 1e-4
-EPOCHS = 10
+EPOCHS = 200
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # ------------------------------
