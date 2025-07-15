@@ -11,7 +11,7 @@ pip install -r requirements.txt
 ```
 # Datasets
 
-The dataset is available in the [dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing).
+The dataset is available in the [NIH TB portals dataset](https://tbportals.niaid.nih.gov/) and DEEPPulmtb [dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing).
 
 Please look at the Data Description below for detailed information about the dataset.
 
