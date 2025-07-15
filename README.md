@@ -75,6 +75,14 @@ Run the example script:
 ```sh
 sh scripts/train_r50_SwinUNeLCsXt.sh
 ```
+## For Symmetrized Graph Convolutional Semantic Affinity
+```bash
+python train/SGCSA_Module.py
+```
+## For Class-driven Affinity Pseudo Label Generation
+```bash
+python train/CLS_CAM.py
+```
 
 ## Contact
 If you have any questions, please feel free to contact me via tan.joey@pelajar.upm.edu.my
