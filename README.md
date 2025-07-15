@@ -76,6 +76,9 @@ Run the example script:
 ```sh
 sh scripts/train_r50_SwinUNeLCsXt.sh
 ```
+
+# Individual module training
+
 ## For Symmetrized Graph Convolutional Semantic Affinity
 ```bash
 python train/SwinUNeLCsT_SGCSA_Module.py
@@ -93,7 +96,10 @@ python train/APLPRA.py
 ```bash
 python train/basic_seg.py
 ```
-
+# End-to-end integration training
+```bash
+python train/Endtoend_inter_training.py
+```
 `Note: As the paper is still in the REVIEW stage, the project code has not yet been fully uploaded. This project is still under construction` 
 
 ## Contact
