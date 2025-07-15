@@ -82,7 +82,7 @@ python train/SwinUNeLCsT_SGCSA_Module.py
 ```
 ## For Class-driven Affinity Pseudo Label Generation
 ```bash
-python train/CLS_CAM.py
+python train/SwinUNeLCsT_CLS_CAM.py
 ```
 
 ## Affinity Pixel-Level Pseudo Refinement Adjustment
