@@ -7,6 +7,7 @@ The code is based on [MONAI (AI Toolkit for Healthcare Imaging)](https://github.
 pip install monai
 conda create -n unest python=3.7
 conda activate unest
+pip install monai nibabel
 pip install -r requirements.txt
 ```
 # Datasets
