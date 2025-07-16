@@ -94,7 +94,7 @@ python train/SwinUNeLCsT_APLPRA.py
 ```
 ## Basic Supervised Semantic Segmentation
 ```bash
-python train/basic_seg.py
+python train/SwinUNeLCsT_basic_seg.py
 ```
 # End-to-end integration training
 ```bash
