@@ -25,13 +25,11 @@ After decompressing the dataset, you can get the following directory:
 │ │ ├── TRN_000.nii.gz
 │ │ ├──  …
 ```
-
-## Training Data (ImageCLEF training data) Preparation
-
 <img width="3344" height="1512" alt="Figure1" src="https://github.com/user-attachments/assets/f09192f7-7efc-4fc3-bbf5-3f8e3915a6d0" />
 
 <img width="2456" height="1111" alt="Figure2" src="https://github.com/user-attachments/assets/be9a6ec5-f269-4e09-b441-d117c11f4fdf" />
 
+## Training Data (ImageCLEF training data) Preparation
 
  We need to download the following datasets:
 
