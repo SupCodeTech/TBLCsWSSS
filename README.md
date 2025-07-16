@@ -10,7 +10,15 @@ conda activate unest
 pip install monai nibabel
 pip install -r requirements.txt
 ```
+
+<img width="3344" height="1512" alt="Figure1" src="https://github.com/user-attachments/assets/f09192f7-7efc-4fc3-bbf5-3f8e3915a6d0" />
+
+<img width="2456" height="1111" alt="Figure2" src="https://github.com/user-attachments/assets/be9a6ec5-f269-4e09-b441-d117c11f4fdf" />
+
 # Datasets
+
+
+<img width="200" height="200" alt="image" src="https://github.com/user-attachments/assets/f3abf120-95cc-4546-b870-a4b5bc91ef5d" />   <img width="333" height="151" alt="image" src="https://github.com/user-attachments/assets/ef457855-6e2f-4cb9-837e-03019eb01b0d" />
 
 The dataset is available in the [U.S. National Institute of Allergy & Infectious Diseases (NIH) TB portals dataset](https://tbportals.niaid.nih.gov/) and DEEPPulmtb [dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing).
 
@@ -25,9 +33,6 @@ After decompressing the dataset, you can get the following directory:
 │ │ ├── TRN_000.nii.gz
 │ │ ├──  …
 ```
-<img width="3344" height="1512" alt="Figure1" src="https://github.com/user-attachments/assets/f09192f7-7efc-4fc3-bbf5-3f8e3915a6d0" />
-
-<img width="2456" height="1111" alt="Figure2" src="https://github.com/user-attachments/assets/be9a6ec5-f269-4e09-b441-d117c11f4fdf" />
 
 ## Training Data (ImageCLEF training data) Preparation
 
