@@ -18,7 +18,7 @@ pip install -r requirements.txt
 # Datasets
 
 
-<img width="200" height="200" alt="image" src="https://github.com/user-attachments/assets/f3abf120-95cc-4546-b870-a4b5bc91ef5d" />   <img width="333" height="151" alt="image" src="https://github.com/user-attachments/assets/ef457855-6e2f-4cb9-837e-03019eb01b0d" />
+<img width="200" height="200" alt="image" src="https://github.com/user-attachments/assets/f3abf120-95cc-4546-b870-a4b5bc91ef5d" /> &nbsp;&nbsp;&nbsp; <img width="333" height="151" alt="image" src="https://github.com/user-attachments/assets/ef457855-6e2f-4cb9-837e-03019eb01b0d" />
 
 The dataset is available in the [U.S. National Institute of Allergy & Infectious Diseases (NIH) TB portals dataset](https://tbportals.niaid.nih.gov/) and DEEPPulmtb [dataset](https://drive.google.com/drive/folders/1QPinffQ59BufdGapQyLykfaqOiDhtrnX?usp=sharing).
 
