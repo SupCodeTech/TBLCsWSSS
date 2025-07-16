@@ -65,7 +65,7 @@ they will be placed in the following directory:
 │ │ ├──  …
 
 ```
-# SwinUNetR
+# Training Process
 ## For supervised paradigm training
 ```bash
 python main.py
