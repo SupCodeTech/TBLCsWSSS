@@ -90,7 +90,7 @@ python train/SwinUNeLCsT_CLS_CAM.py
 
 ## Affinity Pixel-Level Pseudo Refinement Adjustment
 ```bash
-python train/APLPRA.py
+python train/SwinUNeLCsT_APLPRA.py
 ```
 ## Basic Supervised Semantic Segmentation
 ```bash
